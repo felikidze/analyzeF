@@ -1,6 +1,10 @@
 import { RouteProps } from 'react-router-dom';
 
-import {MainAsync} from '../../_main/Main.async';
+import Main from '@components/_main/Main';
+import ParserPage from "@components/_parse/ParserPage";
+import Login from "@components/_auth/Login";
+import Registration from "@components/_auth/Registration";
+import Feed from "@components/_feed/Feed";
 
 
 export type AppRoutesProps = RouteProps & {
@@ -11,30 +15,52 @@ export type AppRoutesProps = RouteProps & {
 export enum AppRoutes {
     MAIN = 'main',
     PROFILE = 'profile',
+    ADMIN_PANEL = 'admin_panel',
     FEED = 'feed',
     FEED_DETAILS = 'feed_details',
-    ADMIN_PANEL = 'admin_panel',
+    PARSER = 'parser_page',
+    LOGIN = 'login',
+    REGISTRATION = 'registration',
     FORBIDDEN = 'forbidden',
     // last
-    NOT_FOUND = 'not_found',
+    NOT_FOUND = 'not_found'
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: '/',
     [AppRoutes.PROFILE]: '/profile/', // + :id
+    [AppRoutes.ADMIN_PANEL]: '/admin',
     [AppRoutes.FEED]: '/feed',
     [AppRoutes.FEED_DETAILS]: '/feed/', // + :id
-    [AppRoutes.ADMIN_PANEL]: '/admin',
+    [AppRoutes.PARSER]: '/parser-page',
+    [AppRoutes.LOGIN]: '/login',
+    [AppRoutes.REGISTRATION]: '/registration',
     [AppRoutes.FORBIDDEN]: '/forbidden',
     // последний
     [AppRoutes.NOT_FOUND]: '*',
 };
 
-export const routeConfig: Record<AppRoutes.MAIN, AppRoutesProps> = {
+export const routeConfig: Record<AppRoutes.MAIN|AppRoutes.PARSER|AppRoutes.REGISTRATION|AppRoutes.LOGIN|AppRoutes.FEED, AppRoutesProps> = {
     [AppRoutes.MAIN]: {
         path: RoutePath.main,
-        element: <MainAsync />,
+        element: <Main />,
     },
+    [AppRoutes.PARSER]: {
+        path: RoutePath.parser_page,
+        element: <ParserPage />
+    },
+    [AppRoutes.LOGIN]: {
+        path: RoutePath.login,
+        element: <Login />,
+    },
+    [AppRoutes.REGISTRATION]: {
+        path: RoutePath.registration,
+        element: <Registration />
+    },
+    [AppRoutes.FEED]: {
+        path: RoutePath.feed,
+        element: <Feed />
+    }
     /*[AppRoutes.PROFILE]: {
         path: `${RoutePath.profile}:id`,
         element: <ProfilePage />,

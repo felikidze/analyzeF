@@ -23,7 +23,9 @@
     "paths": {
       "@/*": ["./src/*", "./dist/*", ""],
       "@components/*": ["src/components/*"],
-      "@router/*": ["src/components/_router/*"]
+      "@router/*": ["src/components/_router/*"],
+      "@shared/*": ["src/components/_shared/*"],
+      "@context/*": ["src/components/context/*"]
     }
   },
   "include": ["src"],

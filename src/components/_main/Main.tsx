@@ -1,15 +1,17 @@
-import {memo} from 'react';
+import {FC, memo} from 'react';
 
 
-interface IMain {
+interface IMainProps {
 
 }
 
-const Main = (props: IMain) => {
+const Main: FC<IMainProps> = (props) => {
     console.info(props);
 
     return (
-        <></>
+        <div>
+            хуй
+        </div>
     )
 };
 

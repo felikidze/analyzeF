@@ -1,6 +1,7 @@
-import { memo, Suspense, useCallback } from 'react';
+import { Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import {AppRoutesProps, routeConfig} from 'router/config/routeConfig'
+import {AppRoutesProps, routeConfig} from '@router/config/routeConfig'
+import Menu from '@components/_menu/Menu';
 
 const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
@@ -22,10 +23,13 @@ const AppRouter = () => {
     }, []);
 
     return (
-        <Routes>
-            {Object.values(routeConfig).map(renderWithWrapper)}
-        </Routes>
+        <>
+            <Menu/>
+            <Routes>
+                {Object.values(routeConfig).map(renderWithWrapper)}
+            </Routes>
+        </>
     );
 };
 
-export default memo(AppRouter);
+export default AppRouter;
