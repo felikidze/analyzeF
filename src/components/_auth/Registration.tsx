@@ -1,51 +1,82 @@
-import {ChangeEvent, FC, useCallback, useState, useContext} from 'react';
+import {ChangeEvent, FC, useCallback, useState, useContext, useEffect} from 'react';
+import type { FormProps } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
+import { redirect } from "react-router-dom";
+import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 
+import {RoutePath} from '@router/config/routeConfig';
 import {AuthContext} from '@context/AuthContext';
 import {UserRole} from '@components/entities/User/index';
 
+type FieldType = {
+  userName?: string;
+  password?: string;
+  email?: string;
+};
 
 const Registration: FC = () => {
-    const {handleSignUp} = useContext(AuthContext);
-    const [loginValue, setLoginValue] = useState('');
-    const [passwordValue, setPasswordValue] = useState('');
-    const [emailValue, setEmailValue] = useState('');
-    const onLoginChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setLoginValue(e.currentTarget.value)
-    }, []);
-    const onPasswordChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setPasswordValue(e.currentTarget.value)
-    }, []);
-    const onEmailChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setEmailValue(e.currentTarget.value)
-    }, []);
-    const onBtnClick = useCallback(() => {
+    const {handleSignUp, isUserLogged} = useContext(AuthContext);
+
+    useEffect(() => {
+        if (isUserLogged) {
+            redirect(RoutePath.parser_page)
+        }
+    }, [isUserLogged])
+
+    const onFinish = useCallback(({userName, password, email}: Required<FieldType>) => {
         handleSignUp?.({
-            userName: loginValue,
-            password: passwordValue,
-            email: emailValue,
+            userName,
+            password,
+            email,
             role: UserRole.USER
         });
-    }, [loginValue, passwordValue, handleSignUp]);
+    }, [handleSignUp]);
+    const onFinishFailed = (errorInfo: ValidateErrorEntity) => {
+      console.log('Failed:', errorInfo);
+    };
 
     return (
-        <div>
-            <div>
-                <div>Логин</div>
-                <input value={loginValue} onChange={onLoginChanged}/>
-            </div>
-            <div>
-                <div>Пароль</div>
-                <input value={passwordValue} onChange={onPasswordChanged}/>
-            </div>
-            <div>
-                <div>Почта</div>
-                <input value={emailValue} onChange={onEmailChanged}/>
-            </div>
-            <div>
-                <button onClick={onBtnClick}/>
-            </div>
-        </div>
-    );
+        <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+        >
+            <Form.Item<FieldType>
+              label="Username"
+              name="userName"
+              rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item<FieldType>
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item<FieldType>
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your email!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+        </Form>
+    )
 };
 
 export default Registration;

@@ -18,7 +18,10 @@ const ParserPage: FC<IParserPage> = () => {
 
     return (
         <div>
-            <InputWButton onBtnClick={onBtnClick} />
+            <InputWButton
+                onBtnClick={onBtnClick}
+                btnTitle="Запустить сканирование"
+            />
         </div>
     );
 };
