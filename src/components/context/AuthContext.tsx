@@ -2,7 +2,7 @@ import {createContext, useState, useEffect, ReactNode, FC} from "react";
 import axios from "axios";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import { Circle } from "react-preloaders";
+import {Spin} from "antd";
 import inMemoryJWT from "@/utils/inMemoryJWT";
 import {config} from "@/config/Base";
 import {AuthClient} from "@/config/Auth";
@@ -144,7 +144,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         children
       ) : (
         <div>
-          <Circle />
+          <Spin />
         </div>
       )}
     </AuthContext.Provider>
