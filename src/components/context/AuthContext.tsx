@@ -5,18 +5,23 @@ import axios from "axios";
 import { Circle } from "react-preloaders";
 import inMemoryJWT from "@/utils/inMemoryJWT";
 import {config} from "@/config/Base";
+import {AuthClient} from "@/config/Auth";
 import showErrorMessage from "@/utils/showErrorMessage";
 import {UserRole} from "@components/entities/User";
 
-export const AuthClient = axios.create({
-  baseURL: `${config.API_URL}/auth`
+export const RefreshClient = axios.create({
+    baseURL: `${config.API_URL}/auth`,
+    withCredentials: true,
+    headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
 });
 
 export const BaseClient = axios.create({
-  baseURL: `${config.API_URL}`,
+    baseURL: `${config.API_URL}`,
+    withCredentials: true,
+    headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
 });
 
-[AuthClient, BaseClient].forEach((axiosInstance) => axiosInstance.interceptors.request.use(
+[RefreshClient, BaseClient].forEach((axiosInstance) => axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = inMemoryJWT.getToken();
 
@@ -94,7 +99,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
   };
 
   useEffect(() => {
-    AuthClient.post("/refresh")
+    RefreshClient.post("/refresh")
       .then((res) => {
         const { accessToken, accessTokenExpiration } = res.data;
         inMemoryJWT.setToken(accessToken, accessTokenExpiration);

@@ -1,7 +1,6 @@
-import {ChangeEvent, FC, useCallback, useState, useContext, useEffect} from 'react';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { redirect } from "react-router-dom";
+import {FC, useCallback, useContext, useEffect} from 'react';
+import { Button, Form, Input } from 'antd';
+import {useNavigate} from "react-router-dom";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 
 import {RoutePath} from '@router/config/routeConfig';
@@ -16,12 +15,13 @@ type FieldType = {
 
 const Registration: FC = () => {
     const {handleSignUp, isUserLogged} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isUserLogged) {
-            redirect(RoutePath.parser_page)
+            navigate(RoutePath.parser_page)
         }
-    }, [isUserLogged])
+    }, [navigate, isUserLogged])
 
     const onFinish = useCallback(({userName, password, email}: Required<FieldType>) => {
         handleSignUp?.({

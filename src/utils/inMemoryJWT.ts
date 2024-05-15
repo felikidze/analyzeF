@@ -1,7 +1,6 @@
 import { AuthClient, config } from "@/config/Auth";
 
 const inMemoryJWTService = () => {
-  let inMemoryJWT: null = null;
   let refreshTimeoutId: number | null | undefined = null;
 
   const refreshToken = (expiration: number) => {
@@ -23,15 +22,15 @@ const inMemoryJWTService = () => {
     }
   };
 
-  const getToken = () => inMemoryJWT;
+  const getToken = () => localStorage.getItem(config.ACCESS_STORAGE_KEY);
 
-  const setToken = (token: null, tokenExpiration: never) => {
-    inMemoryJWT = token;
+  const setToken = (token: string, tokenExpiration: never) => {
+    localStorage.setItem(config.ACCESS_STORAGE_KEY, token);
     refreshToken(tokenExpiration);
   };
 
   const deleteToken = () => {
-    inMemoryJWT = null;
+    localStorage.removeItem(config.ACCESS_STORAGE_KEY);
     abortRefreshToken();
     localStorage.setItem(config.LOGOUT_STORAGE_KEY, String(Date.now()));
   };

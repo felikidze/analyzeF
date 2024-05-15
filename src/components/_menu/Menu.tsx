@@ -1,27 +1,30 @@
 import {FC, useContext} from 'react';
 import {Link} from 'react-router-dom';
-import { Flex } from 'antd';
+import {Button, Flex} from 'antd';
 
 import {MENU_CONFIG} from './config/menuConfig';
 import {AuthContext} from "@context/AuthContext.tsx";
 
 const Menu: FC = () => {
-    const {isUserLogged} = useContext(AuthContext);
+    const {isUserLogged, handleLogOut} = useContext(AuthContext);
 
     return (
-        <Flex gap="small" wrap>
-            {Object.values(MENU_CONFIG).map(({title, routePath, withoutAuthOnly, authOnly}) => {
-                if (!isUserLogged && withoutAuthOnly) {
-                    return <Link to={routePath}>{title}</Link>;
-                }
+        <div style={{display: "flex", marginBottom: "16px"}}>
+            <Flex gap="small" wrap>
+                {Object.values(MENU_CONFIG).map(({title, routePath, withoutAuthOnly, authOnly}) => {
+                    if (!isUserLogged && withoutAuthOnly) {
+                        return <Link key={routePath} to={routePath}>{title}</Link>;
+                    }
 
-                if (isUserLogged && authOnly) {
-                    return <Link to={routePath}>{title}</Link>;
-                }
+                    if (isUserLogged && authOnly) {
+                        return <Link key={routePath} to={routePath}>{title}</Link>;
+                    }
 
-                return null;
-            })}
-        </Flex>
+                    return null;
+                })}
+            </Flex>
+            {isUserLogged && <Button style={{marginLeft: "auto"}} type="dashed" onClick={handleLogOut}>Выйти</Button> }
+        </div>
     );
 };
 
