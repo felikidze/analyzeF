@@ -12,9 +12,11 @@
   "dependencies": {
     "antd": "^5.17.2",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.3",
     "notistack": "^3.0.1",
     "path": "^0.12.7",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-preloaders": "^3.0.3",
     "react-router-dom": "^6.22.3"

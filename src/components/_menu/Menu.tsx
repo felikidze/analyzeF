@@ -10,7 +10,7 @@ const Menu: FC = () => {
     const location = useLocation();
 
     return (
-        <div style={{display: "flex", marginBottom: "16px"}}>
+        <div style={{display: "flex", marginBottom: "16px", minWidth: "320px"}}>
             <Flex gap="small" wrap>
                 {Object.values(MENU_CONFIG).map(({title, routePath, withoutAuthOnly, authOnly}) => {
                     if (!isUserLogged && withoutAuthOnly) {

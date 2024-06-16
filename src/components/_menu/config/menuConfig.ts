@@ -25,6 +25,11 @@ export const MENU_CONFIG: Record<string, MENU_CONFIG_VALUES> = {
         authOnly: true,
         routePath: RoutePath.feed
     },
+    DOMAIN: {
+        title: 'Домены',
+        authOnly: true,
+        routePath: RoutePath.domains
+    },
     PARSER_PAGE: {
         title: 'Скан',
         authOnly: true,
