@@ -26,7 +26,10 @@ interface IDomainChartProps {
 }
 
 const DomainChart: FC<IDomainChartProps> = ({title, item}) => {
-    const labels = Object.keys(item)
+    const itemClone = {...item};
+    delete itemClone.id;
+
+    const labels = Object.keys(itemClone)
     const options = {
       responsive: true,
       plugins: {
@@ -45,7 +48,7 @@ const DomainChart: FC<IDomainChartProps> = ({title, item}) => {
       datasets: [
         {
           label: 'Количество страниц',
-          data: Object.values(item),
+          data: Object.values(itemClone),
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
         },
       ],
