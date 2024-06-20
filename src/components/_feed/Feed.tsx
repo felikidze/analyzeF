@@ -1,20 +1,16 @@
-import {FC, useLayoutEffect, useState} from 'react';
+import {FC, useState} from 'react';
 
-import {BaseClient} from '@components/context/AuthContext';
-import {Tag, Card, Space} from 'antd';
+
+import {usePagination} from '@hooks/usePagination';
+import {Tag, Card, Space, Pagination} from 'antd';
 
 
 const Feed: FC = () => {
     const [feed, setFeed] = useState<unknown[]>([]);
-
-    useLayoutEffect(() => {
-        const fetchData = async () => {
-            const response: unknown[] = await BaseClient.get('/scans/get-data');
-            setFeed(response.data);
-        };
-
-        fetchData();
-    }, []);
+    const {onChangePage, currentPage, pageSize, total} = usePagination({
+        setData: setFeed,
+        getUrl: '/scans/get-data'
+    });
 
     return (
         <Space direction="vertical" size={16}>
@@ -33,6 +29,13 @@ const Feed: FC = () => {
                     </Card>
                 )
             })}
+            <Pagination
+                style={{display: "flex", justifyContent: "center"}}
+                pageSize={pageSize}
+                current={currentPage}
+                total={total}
+                onChange={onChangePage}
+            />
       </Space>
     )
 };

@@ -12,6 +12,7 @@ export default defineConfig({
       "@router": `${path.resolve(__dirname, './src/components/_router/')}`,
       "@shared": `${path.resolve(__dirname, './src/components/_shared/')}`,
       "@context": `${path.resolve(__dirname, './src/components/context/')}`,
+      "@hooks": `${path.resolve(__dirname, './src/hooks/')}`,
     }
   }
 })

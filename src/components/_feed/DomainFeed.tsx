@@ -1,23 +1,18 @@
-import {FC, useCallback, useLayoutEffect, useState} from 'react';
+import {FC, useCallback, useState} from 'react';
 
-import {BaseClient} from '@components/context/AuthContext';
 
-import {Card, Space, Button, Drawer} from 'antd';
+import {Card, Space, Button, Drawer, Pagination} from 'antd';
 import DomainChart from "@components/_feed/Item/DomainChart";
 import Reviews from "@components/_reviews/Reviews";
+import {usePagination} from "@hooks/usePagination.tsx";
 
 const DomainFeed: FC = () => {
     const [domains, setDomains] = useState<Record<string, Record<string, number>>>({});
     const [isReviewOpened, setIsReviewOpened] = useState(false);
-
-    useLayoutEffect(() => {
-        const fetchData = async () => {
-            const response: unknown[] = await BaseClient.get('/domains/get-data');
-            setDomains(response.data);
-        };
-
-        fetchData();
-    }, []);
+    const {onChangePage, currentPage, pageSize, total} = usePagination({
+        setData: setDomains,
+        getUrl: '/domains/get-data'
+    });
 
     const onReviewBtnClick = useCallback(() => {
         setIsReviewOpened(true);
@@ -48,6 +43,13 @@ const DomainFeed: FC = () => {
                     </Drawer>
                 </Card>
             ))}
+            <Pagination
+                style={{display: "flex", justifyContent: "center"}}
+                pageSize={pageSize}
+                current={currentPage}
+                total={total}
+                onChange={onChangePage}
+            />
       </Space>
     )
 };

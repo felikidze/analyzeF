@@ -25,7 +25,8 @@
       "@components/*": ["src/components/*"],
       "@router/*": ["src/components/_router/*"],
       "@shared/*": ["src/components/_shared/*"],
-      "@context/*": ["src/components/context/*"]
+      "@context/*": ["src/components/context/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"],
